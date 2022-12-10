@@ -1,21 +1,28 @@
 @ECHO OFF
 
-cmd /c start /b /d "C:\Users\ytmas\Desktop\Steam Patcher\" SFP_UI.exe
+set pth=%cd%
 
-timeout /t 15 /nobreak
+IF EXIST %pth%\SFP\SFP_UI.exe (
+	start /b /d "%pth%\SFP\" SFP_UI.exe
 
-cmd /c taskkill /im "SFP_UI.exe" /f
+	timeout /t 15 /nobreak
 
-cmd /c xcopy /s "D:\start\config.css" "C:\Program Files (x86)\Steam\steamui" /Y
+	taskkill /im "SFP_UI.exe" /f
 
-cmd /c xcopy /s "D:\start\libraryroot.custom.css" "C:\Program Files (x86)\Steam\steamui" /Y
+	xcopy /s "%pth%\Theme\config.css" "C:\Program Files (x86)\Steam\steamui" /Y
 
-cmd /c xcopy /s "D:\start\steam.styles" "C:\Program Files (x86)\Steam\resource\styles" /Y
+	xcopy /s "%pth%\Theme\libraryroot.custom.css" "C:\Program Files (x86)\Steam\steamui" /Y
 
-cmd /c taskkill /im "steam.exe" /f
+	xcopy /s "%pth%\Theme\steam.styles" "C:\Program Files (x86)\Steam\resource\styles" /Y
 
-timeout /t 2 /nobreak
+	taskkill /im "steam.exe" /f
 
-cmd /c start /b /d "C:\Program Files (x86)\Steam\" steam.exe -norepairfiles -noverifyfiles
+	timeout /t 2 /nobreak
 
-PAUSE
+	start /b /d "C:\Program Files (x86)\Steam\" steam.exe -norepairfiles -noverifyfiles
+
+	EXIT
+
+) else (
+	EXIT
+)
